@@ -1,6 +1,8 @@
 # EE Score Checker
 
-A modern full-stack web application that allows users to query IRCC (Immigration, Refugees and Citizenship Canada) CRS (Comprehensive Ranking System) scores from the official IRCC API by selecting a date range.
+A modern full-stack web application that allows users to query Canadian IRCC (Immigration, Refugees and Citizenship Canada) CRS (Comprehensive Ranking System) scores from the official IRCC API by selecting a date range.
+
+<img width="1507" height="801" alt="image" src="https://github.com/user-attachments/assets/7e1327d8-a9c9-4d4b-a7e1-736418364ae1" />
 
 ## 🚀 Features
 
