@@ -1,0 +1,48 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: FastAPI backend deployed with AWS SAM
+
+Globals:
+  Function:
+    Timeout: 30
+    MemorySize: 1024
+    Runtime: python3.13
+
+Resources:
+  ApiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: main.handler
+      CodeUri: .
+      Events:
+        ApiEvent:
+          Type: HttpApi
+          Properties:
+            Path: /{proxy+}
+            Method: ANY
+      Environment:
+        Variables:
+          APP_ENV: prod
+          DATABASE_URL: !Ref DatabaseUrl
+          JWT_SECRET: !Ref JwtSecret
+
+Parameters:
+  DatabaseUrl:
+    Type: String
+    Default: "NOT_USED"
+    NoEcho: true
+  JwtSecret:
+    Type: String  
+    Default: "NOT_USED" 
+    NoEcho: true
+
+Outputs:
+  # Output1: The
+  ApiEndpoint:
+    Description: "HTTP API endpoint URL"
+    Value: !Sub "https://${ServerlessHttpApi}.execute-api.${AWS::Region}.amazonaws.com/"
+
+  # Output2: Lambda function name (optional, for debugging)
+  LambdaFunctionName:
+    Description: "AutoComment Lambda Function Name"
+    Value: !Ref ApiFunction

@@ -21,6 +21,7 @@ backend/ENV/
 backend/build/
 backend/dist/
 backend/*.egg-info/
+backend/.aws-sam/
 
 # IDE
 .vscode/
@@ -32,3 +33,9 @@ backend/*.egg-info/
 # OS
 .DS_Store
 Thumbs.db
+
+# credentials
+*.csv
+
+# environment variables
+.env

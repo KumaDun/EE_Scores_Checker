@@ -91,6 +91,10 @@ Each query result displays comprehensive information:
      ```bash
      venv\Scripts\activate
      ```
+     If the system not allow script run, temporary detour it by
+     ```bash
+     Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process
+     ```
    - **macOS/Linux:**
      ```bash
      source venv/bin/activate
@@ -285,6 +289,81 @@ The production build will be in `frontend/dist/`
 
 **Backend:**
 The backend is ready for production. Consider using a production ASGI server like Gunicorn with uvicorn workers.
+
+## 🌏 Deploy  - by using AWS SAM ##
+### Install mangum in the backend virtual environment ###
+``` bash
+.\vent\Scripts\activate
+pip install mangum
+```
+Add the following libraries permanently by modifying requirments.txt and add  mangum, and add code in main.py
+``` python
+from mangum import Mangum
+// All the CODE
+handler = Mangum(app)
+```
+
+### AWS SAM Config ###
+Check are AWS CLI and SAM installed
+``` bash
+aws --version
+sam --version
+```
+If not
+``` bash
+brew install awssamcli        # macOS
+choco install awssamcli       # Windows
+```
+
+Then create a user in AWS IAM and create an access key for the user (do not provide console permission)
+``` bash
+aws configure
+```
+Create a template.yaml
+``` yaml
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: FastAPI backend deployed with AWS SAM
+
+Globals:
+  Function:
+    Timeout: 30
+    MemorySize: 1024
+    Runtime: python3.13
+
+Resources:
+  ApiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: main.handler
+      CodeUri: .
+      Events:
+        ApiEvent:
+          Type: HttpApi
+          Properties:
+            Path: /{proxy+}
+            Method: ANY
+      Environment:
+        Variables:
+          APP_ENV: prod
+          DATABASE_URL: !Ref DatabaseUrl
+          JWT_SECRET: !Ref JwtSecret
+
+Parameters:
+  DatabaseUrl:
+    Type: String
+    NoEcho: true
+  JwtSecret:
+    Type: String
+    NoEcho: true
+```
+
+Then install aws sam cli and run
+``` bash
+sam build
+
+sam deploy --guided
+```
 
 ## 📄 License
 

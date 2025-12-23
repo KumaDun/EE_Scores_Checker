@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from typing import Optional, List
 from pydantic import BaseModel
 from datetime import datetime
+from mangum import Mangum
 import httpx
 
 app = FastAPI(title="EE Score Checker API", version="1.0.0")
@@ -147,3 +148,5 @@ async def get_crs_scores(
 async def get_all_rounds():
     """Get all CRS rounds without filtering"""
     return await fetch_ircc_data()
+
+handler = Mangum(app)
