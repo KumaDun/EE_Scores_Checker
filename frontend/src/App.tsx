@@ -32,7 +32,7 @@ function App() {
       if (startDate) params.append("start_date", startDate);
       if (endDate) params.append("end_date", endDate);
 
-      const url = `${apiEndpoint}/api/crs-scores${
+      const url = `${apiEndpoint}api/crs-scores${
         params.toString() ? "?" + params.toString() : ""
       }`;
       const response = await fetch(url);
