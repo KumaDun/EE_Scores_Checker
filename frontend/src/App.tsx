@@ -4,7 +4,7 @@ import DateRangeForm from "./components/DateRangeForm";
 import ResultsPanel from "./components/ResultsPanel";
 import ErrorMessage from "./components/ErrorMessage";
 
-const API_ENDPOINT = "https://21b21ml5bk.execute-api.us-east-1.amazonaws.com/";
+const apiEndpoint = import.meta.env.VITE_API_ENDPOINT;
 
 interface CRSRound {
   drawNumber: string;
@@ -32,7 +32,7 @@ function App() {
       if (startDate) params.append("start_date", startDate);
       if (endDate) params.append("end_date", endDate);
 
-      const url = `${API_ENDPOINT}/api/crs-scores${
+      const url = `${apiEndpoint}/api/crs-scores${
         params.toString() ? "?" + params.toString() : ""
       }`;
       const response = await fetch(url);
