@@ -24,7 +24,7 @@ backend/*.egg-info/
 backend/.aws-sam/
 
 # Cursor
-
+.cursor
 
 # IDE
 .vscode/
