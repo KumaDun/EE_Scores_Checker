@@ -334,6 +334,23 @@ Globals:
     Runtime: python3.13
 
 Resources:
+  # For CORS configuration
+  HttpApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      CorsConfiguration:
+        AllowOrigins:
+          - https://ee-scores-checker.vercel.app
+        AllowMethods:
+          - GET
+          - POST
+          - PUT
+          - DELETE
+          - OPTIONS
+        AllowHeaders:
+          - Content-Type
+          - Authorization
+        AllowCredentials: false
   ApiFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -343,6 +360,7 @@ Resources:
         ApiEvent:
           Type: HttpApi
           Properties:
+            ApiId: !Ref HttpApi
             Path: /{proxy+}
             Method: ANY
       Environment:
@@ -354,10 +372,23 @@ Resources:
 Parameters:
   DatabaseUrl:
     Type: String
+    Default: "NOT_USED"
     NoEcho: true
   JwtSecret:
-    Type: String
+    Type: String  
+    Default: "NOT_USED" 
     NoEcho: true
+
+Outputs:
+  # Output1: The
+  ApiEndpoint:
+    Description: "HTTP API endpoint URL"
+    Value: !Sub "https://${HttpApi}.execute-api.${AWS::Region}.amazonaws.com/"
+
+  # Output2: Lambda function name (optional)输出2：Lambda函数名称（可选，方便调试）
+  LambdaFunctionName:
+    Description: "AutoComment Lambda Function Name"
+    Value: !Ref ApiFunction
 ```
 
 Then install aws sam cli and run
@@ -366,6 +397,24 @@ sam build
 
 sam deploy --guided
 ```
+
+| Prompt                    | Recommended Answer      |
+| ------------------------- | ----------------------- |
+| Stack name                | `your-project-name-dev` |
+| Region                    | `us-east-1`             |
+| Confirm changes           | `y`                     |
+| Allow IAM role creation   | `y`                     |
+| Disable rollback          | `n`                     |
+| No authentication warning | `y`                     |
+| Save SAM config           | `y`                     |
+| Config environment        | `default`               |
+
+The output will give you api endpoint url. I choose to store this api endpoint in frontend environment variables. There are many alternative options.
+``` tsx
+const apiEndpoint = import.meta.env.VITE_API_ENDPOINT;
+```
+Be careful that this meta.env cannot be recognized as a type by TypeScript if no declaritions specifically listed. So add a vite-env.d.ts in /src to include all vite/client types.
+
 
 ## 📄 License
 

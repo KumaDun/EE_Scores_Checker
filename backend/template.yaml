@@ -9,6 +9,23 @@ Globals:
     Runtime: python3.13
 
 Resources:
+  # For CORS configuration
+  HttpApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      CorsConfiguration:
+        AllowOrigins:
+          - https://ee-scores-checker.vercel.app
+        AllowMethods:
+          - GET
+          - POST
+          - PUT
+          - DELETE
+          - OPTIONS
+        AllowHeaders:
+          - Content-Type
+          - Authorization
+        AllowCredentials: false
   ApiFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -18,6 +35,7 @@ Resources:
         ApiEvent:
           Type: HttpApi
           Properties:
+            ApiId: !Ref HttpApi
             Path: /{proxy+}
             Method: ANY
       Environment:
@@ -40,9 +58,9 @@ Outputs:
   # Output1: The
   ApiEndpoint:
     Description: "HTTP API endpoint URL"
-    Value: !Sub "https://${ServerlessHttpApi}.execute-api.${AWS::Region}.amazonaws.com/"
+    Value: !Sub "https://${HttpApi}.execute-api.${AWS::Region}.amazonaws.com/"
 
-  # Output2: Lambda function name (optional, for debugging)
+  # Output2: Lambda function name (optional)输出2：Lambda函数名称（可选，方便调试）
   LambdaFunctionName:
     Description: "AutoComment Lambda Function Name"
     Value: !Ref ApiFunction
