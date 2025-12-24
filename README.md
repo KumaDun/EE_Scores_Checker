@@ -413,8 +413,11 @@ The output will give you api endpoint url. I choose to store this api endpoint i
 ``` tsx
 const apiEndpoint = import.meta.env.VITE_API_ENDPOINT;
 ```
-Be careful that this meta.env cannot be recognized as a type by TypeScript if no declaritions specifically listed. So add a vite-env.d.ts in /src to include all vite/client types.
+Be careful that this meta.env cannot be recognized as a type by TypeScript if no declaritions specifically listed. So add a vite-env.d.ts to include all vite/client types.
 
+``` frontend/src/vite-env.d.ts
+/// <reference types="vite/client" />
+```
 
 ## 📄 License
 
