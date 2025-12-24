@@ -23,6 +23,9 @@ backend/dist/
 backend/*.egg-info/
 backend/.aws-sam/
 
+# Cursor
+
+
 # IDE
 .vscode/
 .idea/
