@@ -305,6 +305,10 @@ from mangum import Mangum
 handler = Mangum(app)
 ```
 
+### deploy frontend by using Vercel and get the frontend url ###
+This can be quickly done by referring https://vercel.com/docs
+Link github project to Vercel, deploy it and get the frontend url, which will be used in AWS SAM configuration
+
 ### AWS SAM Config ###
 Check are AWS CLI and SAM installed
 ``` bash
@@ -340,6 +344,7 @@ Resources:
     Properties:
       CorsConfiguration:
         AllowOrigins:
+        # This is the frontend url 
           - https://ee-scores-checker.vercel.app
         AllowMethods:
           - GET
@@ -380,7 +385,7 @@ Parameters:
     NoEcho: true
 
 Outputs:
-  # Output1: The
+  # Output1: The API Endpoint url
   ApiEndpoint:
     Description: "HTTP API endpoint URL"
     Value: !Sub "https://${HttpApi}.execute-api.${AWS::Region}.amazonaws.com/"
