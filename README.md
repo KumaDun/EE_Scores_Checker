@@ -4,6 +4,8 @@ A modern full-stack web application that allows users to query Canadian IRCC (Im
 
 <img width="1507" height="801" alt="image" src="https://github.com/user-attachments/assets/7e1327d8-a9c9-4d4b-a7e1-736418364ae1" />
 
+Url: https://ee-scores-checker.vercel.app/
+
 ## 🚀 Features
 
 - ✅ Query CRS scores from the official IRCC Express Entry rounds API
