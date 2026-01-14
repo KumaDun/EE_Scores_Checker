@@ -392,7 +392,7 @@ Outputs:
     Description: "HTTP API endpoint URL"
     Value: !Sub "https://${HttpApi}.execute-api.${AWS::Region}.amazonaws.com/"
 
-  # Output2: Lambda function name (optional)输出2：Lambda函数名称（可选，方便调试）
+  # Output2: Lambda function name (optional)
   LambdaFunctionName:
     Description: "AutoComment Lambda Function Name"
     Value: !Ref ApiFunction
